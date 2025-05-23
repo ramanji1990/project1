@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jhub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jhub 
+  template:
+    metadata:
+      labels:
+        app: jhub
+    spec:
+      containers:
+      - name: jhub
+        image: jupyter/scipy-notebook
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jhub-service
+spec:
+  ports:
+  - name: http
+    port: 8888
+    targetPort: 8888
+  selector:
+    app: jhub      
+  type: LoadBalancer 
